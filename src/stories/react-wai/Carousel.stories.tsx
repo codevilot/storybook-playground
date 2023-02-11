@@ -7,6 +7,15 @@ export default {
   args: {},
 };
 
-const Template = () => <Carousel name="carousel"></Carousel>;
+const Template = () => (
+  <Carousel name="carousel">
+    <li>
+      <h2>first page</h2>
+    </li>
+    <li>
+      <h2>second page</h2>
+    </li>
+  </Carousel>
+);
 
 export const Default = Template.bind({});

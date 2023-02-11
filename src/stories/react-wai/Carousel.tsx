@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+interface IPages {
+  children: JSX.Element | JSX.Element[];
+}
 const Container = styled.section`
   max-width: 900px;
 `;
 const Tab = styled.div``;
-function Pages() {
-  return <div></div>;
-}
+const Pages = styled.ul<IPages>``;
 function Controller() {
   return (
     <>
@@ -17,11 +18,17 @@ function Controller() {
   );
 }
 
-export function Carousel(props: { name: string }) {
+export function Carousel({
+  name,
+  children,
+}: {
+  name?: string;
+  children: JSX.Element | JSX.Element[];
+}) {
   return (
-    <Container aria-label={props.name}>
+    <Container aria-label={name}>
       <Controller />
-      <Pages />
+      <Pages>{children}</Pages>
     </Container>
   );
 }

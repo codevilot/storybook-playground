@@ -31,6 +31,7 @@ const Pages = styled.ul<IPages>`
 `;
 const Controller = styled.div`
   position: absolute;
+  z-index: 1;
 `;
 
 export function Carousel({
@@ -40,21 +41,28 @@ export function Carousel({
   name?: string;
   children: JSX.Element | JSX.Element[];
 }) {
-  const totalPage = Array.isArray(children) ? children.length : 1;
   const [current, setCurrent] = useState(0);
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((current) => (current + 1) % totalPage);
-      console.log(current);
-    }, 1000);
+  const [play, setPlay] = useState(true);
+  const totalPage = Array.isArray(children) ? children.length : 1;
 
-    return () => clearInterval(timer);
-  }, []);
+  useEffect(() => {
+    if (play) {
+      const timer = setInterval(() => {
+        setCurrent((current) => (current + 1) % totalPage);
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [play]);
   return (
     <Container aria-roledescription="carousel" aria-label={name}>
       <Controller>
-        <button aria-label="Stop automatic slide show">Stop/Play</button>
-        <Tab></Tab>
+        <button
+          aria-label="Stop automatic slide show"
+          onClick={() => setPlay(!play)}
+        >
+          Stop/Play
+        </button>
+        <Tab />
       </Controller>
       <Pages current={current} n={totalPage}>
         {children}

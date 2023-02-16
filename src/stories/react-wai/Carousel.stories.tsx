@@ -11,6 +11,7 @@ const Template = () => (
   <Carousel name="carousel">
     <li>
       <h2>first page</h2>
+      <input type="text" />
     </li>
     <li>
       <h2>second page</h2>

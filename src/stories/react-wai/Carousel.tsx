@@ -1,8 +1,14 @@
-import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
+import React, {
+  useEffect,
+  useState,
+  Dispatch,
+  SetStateAction,
+  ReactNode,
+} from "react";
 import styled from "@emotion/styled";
 
 interface IPages {
-  children: JSX.Element | JSX.Element[];
+  children: ReactNode;
   current: number;
   n: number;
 }
@@ -56,13 +62,13 @@ export function Carousel({
   children,
 }: {
   name?: string;
-  children: JSX.Element | JSX.Element[];
+  children: JSX.Element[];
 }) {
   const [current, setCurrent] = useState(0);
   const [temporaryPause, setTemporaryPause] = useState(false);
   const [play, setPlay] = useState(true);
-  const totalPage = Array.isArray(children) ? children.length : 1;
-
+  const trickChildren = [children.at(-1), ...children, children.at(0)];
+  const totalPage = trickChildren.length;
   useEffect(() => {
     if (play && !temporaryPause) {
       const timer = setInterval(() => {
@@ -89,7 +95,7 @@ export function Carousel({
         onFocus={() => setTemporaryPause(true)}
         onBlur={() => setTemporaryPause(false)}
       >
-        {children}
+        {trickChildren}
       </Pages>
     </Container>
   );

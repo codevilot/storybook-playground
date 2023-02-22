@@ -6,7 +6,7 @@ import React, {
   ReactNode,
 } from "react";
 import styled from "@emotion/styled";
-
+import { PauseIcon, PlayIcon } from "./Carousel.icon";
 interface IPages {
   children: ReactNode;
   current: number;
@@ -84,7 +84,7 @@ export function Carousel({
           aria-label="Stop automatic slide show"
           onClick={() => setPlay(!play)}
         >
-          {!play ? "Play" : "Stop"}
+          {!play ? "▷" : "∥"}
         </button>
         <Tab n={totalPage} tabEvent={setCurrent} />
       </Controller>

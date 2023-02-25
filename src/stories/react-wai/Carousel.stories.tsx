@@ -10,11 +10,21 @@ export default {
 const Template = () => (
   <Carousel name="carousel">
     <li>
-      <h2>first page</h2>
+      <h2>1 page</h2>
+      11111111111
       <input type="text" />
     </li>
     <li>
-      <h2>second page</h2>
+      <h2>2 page</h2>
+      2222222222
+    </li>
+    <li>
+      <h2>3 page</h2>
+      33333333333
+    </li>
+    <li>
+      <h2>4 page</h2>
+      444444444
     </li>
   </Carousel>
 );

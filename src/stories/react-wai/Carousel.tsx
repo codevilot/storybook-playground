@@ -1,9 +1,27 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-
-interface IPages {
+interface ICarousel {
+  /**
+   * Carousel name
+   */
+  name?: string;
+  /**
+   * It determines Carousel Page
+   */
   children: JSX.Element | JSX.Element[];
+}
+interface IPages {
+  /**
+   * It determines Carousel Page
+   */
+  children: JSX.Element | JSX.Element[];
+  /**
+   * current page number
+   */
   current: number;
+  /**
+   * The number of page
+   */
   n: number;
 }
 const Container = styled.section`
@@ -34,13 +52,7 @@ const Controller = styled.div`
   z-index: 1;
 `;
 
-export function Carousel({
-  name,
-  children,
-}: {
-  name?: string;
-  children: JSX.Element | JSX.Element[];
-}) {
+export function Carousel({ name, children }: ICarousel) {
   const [current, setCurrent] = useState(0);
   const [play, setPlay] = useState(true);
   const totalPage = Array.isArray(children) ? children.length : 1;
@@ -57,10 +69,10 @@ export function Carousel({
     <Container aria-roledescription="carousel" aria-label={name}>
       <Controller>
         <button
-          aria-label="Stop automatic slide show"
+          aria-label="Stop automatic carousel show"
           onClick={() => setPlay(!play)}
         >
-          Stop/Play
+          {play ? "Stop" : "Play"}
         </button>
         <Tab />
       </Controller>

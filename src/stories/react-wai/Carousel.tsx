@@ -72,6 +72,34 @@ const Controller = styled.div`
   position: absolute;
   z-index: 1;
 `;
+function SelectedCircle() {
+  return (
+    <svg
+      width="34"
+      height="34"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle className="border" cx="16" cy="15" r="10"></circle>
+      <circle className="tab-background" cx="16" cy="15" r="8"></circle>
+      <circle className="tab" cx="16" cy="15" r="6"></circle>
+    </svg>
+  );
+}
+function Circle() {
+  return (
+    <svg
+      width="34"
+      height="34"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle className="border" cx="16" cy="15" r="10"></circle>
+      <circle className="tab-background" cx="16" cy="15" r="8"></circle>
+      <circle className="tab" cx="16" cy="15" r="6"></circle>
+    </svg>
+  );
+}
 function Tab({ n, tabEvent }: ITab) {
   return (
     <div>

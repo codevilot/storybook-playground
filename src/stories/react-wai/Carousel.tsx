@@ -1,5 +1,6 @@
 import React, { useEffect, useState, ReactNode } from "react";
 import styled from "@emotion/styled";
+import { Tab } from "./CarouselTab";
 interface IPages extends IContainer {
   /**
    * It determines Carousel Page
@@ -10,16 +11,7 @@ interface IPages extends IContainer {
    */
   n: number;
 }
-interface ITab {
-  /**
-   * The number of Carousel tab
-   */
-  n: number;
-  /**
-   * Carousel Event
-   */
-  tabEvent: (to: number) => void;
-}
+
 interface IContainer {
   /**
    * Carousel object including prev page number and current page number
@@ -31,16 +23,16 @@ const Container = styled.section<IContainer>`
   height: 100px;
   position: relative;
   overflow: hidden;
-  ul > *:nth-child(-n + ${({ page }) => page.current + 1}) {
+  ul > *:nth-of-type(-n + ${({ page }) => page.current + 1}) {
     transform: translate3d(-100%, 0, 0);
   }
-  ul > *:nth-child(n + ${({ page }) => page.current + 1}) {
+  ul > *:nth-of-type(n + ${({ page }) => page.current + 1}) {
     transform: translate3d(100%, 0, 0);
   }
-  ul > *:nth-child(${({ page }) => page.prev + 1}) {
+  ul > *:nth-of-type(${({ page }) => page.prev + 1}) {
     opacity: 1;
   }
-  ul > *:nth-child(${({ page }) => page.current + 1}) {
+  ul > *:nth-of-type(${({ page }) => page.current + 1}) {
     opacity: 1;
     transform: translate3d(0%, 0, 0);
   }
@@ -71,46 +63,13 @@ const Pages = styled.ul<IPages>`
 const Controller = styled.div`
   position: absolute;
   z-index: 1;
+  & button:first-child {
+    float: left;
+  }
+  width: 100%;
+  text-align: center;
 `;
-function SelectedCircle() {
-  return (
-    <svg
-      width="34"
-      height="34"
-      version="1.1"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <circle className="border" cx="16" cy="15" r="10"></circle>
-      <circle className="tab-background" cx="16" cy="15" r="8"></circle>
-      <circle className="tab" cx="16" cy="15" r="6"></circle>
-    </svg>
-  );
-}
-function Circle() {
-  return (
-    <svg
-      width="34"
-      height="34"
-      version="1.1"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <circle className="border" cx="16" cy="15" r="10"></circle>
-      <circle className="tab-background" cx="16" cy="15" r="8"></circle>
-      <circle className="tab" cx="16" cy="15" r="6"></circle>
-    </svg>
-  );
-}
-function Tab({ n, tabEvent }: ITab) {
-  return (
-    <div>
-      {Array.from({ length: n }).map((_, i) => (
-        <button key={i} onClick={() => tabEvent(i)}>
-          a
-        </button>
-      ))}
-    </div>
-  );
-}
+
 export function Carousel({
   name,
   children,
@@ -148,7 +107,7 @@ export function Carousel({
         >
           {!play ? "▷" : "∥"}
         </button>
-        <Tab n={totalPage} tabEvent={changePage} />
+        <Tab n={totalPage} tabEvent={changePage} current={page.current} />
       </Controller>
       <Pages
         tabIndex={0}

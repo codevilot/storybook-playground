@@ -8,7 +8,7 @@ export default {
 };
 
 const Template = () => (
-  <Carousel name="carousel">
+  <Carousel name="carousel" delay={1000}>
     <li>
       <h2>1 page</h2>
       11111111111

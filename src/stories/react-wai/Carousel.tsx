@@ -18,6 +18,13 @@ interface IContainer {
    */
   page: { prev: number; current: number };
 }
+
+interface ICarousel {
+  name?: string;
+  delay?: number;
+  auto?: boolean;
+  children: JSX.Element[];
+}
 const Container = styled.section<IContainer>`
   width: 100%;
   height: 100px;
@@ -63,23 +70,17 @@ const Pages = styled.ul<IPages>`
 const Controller = styled.div`
   position: absolute;
   z-index: 1;
-  & button:first-child {
+  & button:first-of-type {
     float: left;
   }
   width: 100%;
   text-align: center;
 `;
 
-export function Carousel({
-  name,
-  children,
-}: {
-  name?: string;
-  children: JSX.Element[];
-}) {
+export function Carousel({ name, children, delay, auto }: ICarousel) {
   const [page, setPage] = useState({ prev: 0, current: 0 });
   const [temporaryPause, setTemporaryPause] = useState(false);
-  const [play, setPlay] = useState(true);
+  const [play, setPlay] = useState(auto !== false ?? true);
   const totalPage = children.length;
   const changePage = (to: number) =>
     setPage(({ current }) => ({
@@ -94,7 +95,7 @@ export function Carousel({
           prev: current,
           current: (current + 1) % totalPage,
         }));
-      }, 1000);
+      }, delay ?? 5000);
       return () => clearInterval(timer);
     }
   }, [play, temporaryPause]);

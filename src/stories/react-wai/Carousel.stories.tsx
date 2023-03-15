@@ -4,27 +4,25 @@ import { Carousel } from "./Carousel";
 export default {
   title: "Carousel",
   component: Carousel,
-  args: {},
 };
 
 const Template = () => (
-  <Carousel name="carousel" delay={1000}>
-    <li>
-      <h2>1 page</h2>
-      11111111111
-      <input type="text" />
+  <Carousel name="carousel-sample" delay={6000}>
+    <li style={{ backgroundColor: "#3f2e99", color: "white", padding: "10px" }}>
+      <h2>First page</h2>
+      Carousel animation delay : 6s
     </li>
-    <li>
-      <h2>2 page</h2>
-      2222222222
+    <li style={{ backgroundColor: "#2e6d99", color: "white", padding: "10px" }}>
+      <h2>Second page</h2>
+      Carousel Name is carousel-sample
     </li>
-    <li>
-      <h2>3 page</h2>
-      33333333333
+    <li style={{ backgroundColor: "#2e6d73", color: "white", padding: "10px" }}>
+      <h2>Third page</h2>
+      Carousel children is carousel html element
     </li>
-    <li>
-      <h2>4 page</h2>
-      444444444
+    <li style={{ backgroundColor: "#f2bcaa", color: "white", padding: "10px" }}>
+      <h2>Fourth page</h2>
+      Carousel is auto
     </li>
   </Carousel>
 );

@@ -27,7 +27,7 @@ interface ICarousel {
 }
 const Container = styled.section<IContainer>`
   width: 100%;
-  height: 100px;
+  height: 100%;
   position: relative;
   overflow: hidden;
   ul > *:nth-of-type(-n + ${({ page }) => page.current + 1}) {

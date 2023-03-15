@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import styled from "@emotion/styled";
 interface ITabButton {
   onClick: () => void;
@@ -15,7 +16,8 @@ interface ITab {
   /**
    * Carousel Event
    */
-  tabEvent: (to: number) => void;
+  clickEvent: (to: number) => void;
+  keyEvent: Dispatch<SetStateAction<{ prev: number; current: number }>>;
 }
 interface ITabContainer {
   width: number;
@@ -40,17 +42,39 @@ function TabButton({ onClick, isCurrent }: ITabButton) {
   );
 }
 const TabContainer = styled.div<ITabContainer>`
-  margin: auto;
+  margin: 10px auto auto auto;
+  padding: 0 10px;
+  height: 30px;
+  border-radius: 5px;
   width: ${({ width }) => width * 30}px;
   background-color: rgb(0 0 0 / 65%);
 `;
-export function Tab({ n, tabEvent, current }: ITab) {
+export function Tab({ n, clickEvent, keyEvent, current }: ITab) {
+  const keyboardFunc = ({ key }: any) => {
+    if (key === "ArrowLeft")
+      keyEvent(({ current }) => ({
+        prev: current,
+        current: current > 0 ? (current - 1) % n : n - 1,
+      }));
+    if (key === "ArrowRight")
+      keyEvent(({ current }) => ({
+        prev: current,
+        current: (current + 1) % n,
+      }));
+  };
+  const addEvent = () => window.addEventListener("keydown", keyboardFunc);
+  const removeEvent = () => window.removeEventListener("keydown", keyboardFunc);
   return (
-    <TabContainer width={n}>
+    <TabContainer
+      width={n}
+      tabIndex={0}
+      onFocus={addEvent}
+      onBlur={removeEvent}
+    >
       {Array.from({ length: n }).map((_, i) => (
         <TabButton
           key={i}
-          onClick={() => tabEvent(i)}
+          onClick={() => clickEvent(i)}
           isCurrent={i === current}
         />
       ))}

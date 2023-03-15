@@ -27,9 +27,10 @@ interface ICarousel {
 }
 const Container = styled.section<IContainer>`
   width: 100%;
-  height: 100%;
+  height: 100px;
   position: relative;
   overflow: hidden;
+
   ul > *:nth-of-type(-n + ${({ page }) => page.current + 1}) {
     transform: translate3d(-100%, 0, 0);
   }
@@ -44,17 +45,26 @@ const Container = styled.section<IContainer>`
     transform: translate3d(0%, 0, 0);
   }
   ul > * {
-    transition: 1s transform;
+    transition: 0.2s transform;
   }
 `;
-
+const ControButton = styled.button`
+  background: rgb(0 0 0 / 65%);
+  border: 0;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 5px;
+`;
 const Pages = styled.ul<IPages>`
   margin: 0;
   padding: 0;
   width: 100%;
-
   flex-direction: row;
-
   & > * {
     width: 100%;
     opacity: 0;
@@ -82,6 +92,7 @@ export function Carousel({ name, children, delay, auto }: ICarousel) {
   const [temporaryPause, setTemporaryPause] = useState(false);
   const [play, setPlay] = useState(auto !== false ?? true);
   const totalPage = children.length;
+
   const changePage = (to: number) =>
     setPage(({ current }) => ({
       prev: current,
@@ -102,13 +113,18 @@ export function Carousel({ name, children, delay, auto }: ICarousel) {
   return (
     <Container page={page} aria-roledescription="carousel" aria-label={name}>
       <Controller>
-        <button
+        <ControButton
           aria-label="Stop automatic carousel show"
           onClick={() => setPlay(!play)}
         >
-          {!play ? "▷" : "∥"}
-        </button>
-        <Tab n={totalPage} tabEvent={changePage} current={page.current} />
+          {!play ? "▶" : "∥"}
+        </ControButton>
+        <Tab
+          n={totalPage}
+          clickEvent={changePage}
+          keyEvent={setPage}
+          current={page.current}
+        />
       </Controller>
       <Pages
         tabIndex={0}

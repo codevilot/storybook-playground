@@ -17,17 +17,37 @@ interface IContainer {
    * Carousel object including prev page number and current page number
    */
   page: { prev: number; current: number };
+  /**
+   * Carousel height
+   */
+  height?: number | string;
 }
 
 interface ICarousel {
+  /**
+   * Carousel aria label
+   */
   name?: string;
+  /**
+   * Carousel page slide delay
+   */
   delay?: number;
+  /**
+   * Carousel auto settings
+   */
   auto?: boolean;
+  /**
+   * Carousel Page
+   */
   children: JSX.Element[];
+  /**
+   * Carousel height
+   */
+  height?: number | string;
 }
 const Container = styled.section<IContainer>`
   width: 100%;
-  height: 100px;
+  height: ${({ height }) => height ?? "100px"}
   position: relative;
   overflow: hidden;
 
@@ -87,10 +107,10 @@ const Controller = styled.div`
   text-align: center;
 `;
 
-export function Carousel({ name, children, delay, auto }: ICarousel) {
+export function Carousel({ name, children, delay, auto, height }: ICarousel) {
   const [page, setPage] = useState({ prev: 0, current: 0 });
-  const [temporaryPause, setTemporaryPause] = useState(false);
   const [play, setPlay] = useState(auto !== false ?? true);
+  const [pause, setPause] = useState(false);
   const totalPage = children.length;
 
   const changePage = (to: number) =>
@@ -100,7 +120,7 @@ export function Carousel({ name, children, delay, auto }: ICarousel) {
     }));
 
   useEffect(() => {
-    if (play && !temporaryPause) {
+    if (play && !pause) {
       const timer = setInterval(() => {
         setPage(({ current }) => ({
           prev: current,
@@ -109,12 +129,12 @@ export function Carousel({ name, children, delay, auto }: ICarousel) {
       }, delay ?? 5000);
       return () => clearInterval(timer);
     }
-  }, [play, temporaryPause]);
+  }, [play, pause]);
   return (
     <Container page={page} aria-roledescription="carousel" aria-label={name}>
       <Controller>
         <ControButton
-          aria-label="Stop automatic carousel show"
+          aria-label={!play ? "start carousel slide" : "stop carousel slide"}
           onClick={() => setPlay(!play)}
         >
           {!play ? "▶" : "∥"}
@@ -130,8 +150,8 @@ export function Carousel({ name, children, delay, auto }: ICarousel) {
         tabIndex={0}
         n={totalPage}
         page={page}
-        onFocus={() => setTemporaryPause(true)}
-        onBlur={() => setTemporaryPause(false)}
+        onFocus={() => setPause(true)}
+        onBlur={() => setPause(false)}
       >
         {children}
       </Pages>

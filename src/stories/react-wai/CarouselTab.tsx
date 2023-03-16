@@ -1,7 +1,13 @@
 import { Dispatch, SetStateAction } from "react";
 import styled from "@emotion/styled";
 interface ITabButton {
+  /**
+   * Control tab button Event
+   */
   onClick: () => void;
+  /**
+   * Control tab current page
+   */
   isCurrent: boolean;
 }
 interface ITab {
@@ -14,12 +20,18 @@ interface ITab {
    */
   n: number;
   /**
-   * Carousel Event
+   * Carousel click Event
    */
   clickEvent: (to: number) => void;
+  /**
+   * Carousel keyboard Event
+   */
   keyEvent: Dispatch<SetStateAction<{ prev: number; current: number }>>;
 }
 interface ITabContainer {
+  /**
+   * Control tab container width
+   */
   width: number;
 }
 const CircleSvg = styled.svg`

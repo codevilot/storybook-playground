@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import styled from "@emotion/styled";
-interface ITabButton {
+interface TabButton {
   /**
    * Control tab button Event
    */
@@ -10,7 +10,7 @@ interface ITabButton {
    */
   isCurrent: boolean;
 }
-interface ITab {
+interface Tab {
   /**
    * Current Page Index
    */
@@ -28,7 +28,7 @@ interface ITab {
    */
   keyEvent: Dispatch<SetStateAction<{ prev: number; current: number }>>;
 }
-interface ITabContainer {
+interface TabContainer {
   /**
    * Control tab container width
    */
@@ -39,7 +39,7 @@ const CircleSvg = styled.svg`
     fill: rgb(31, 31, 31);
   }
 `;
-function TabButton({ onClick, isCurrent }: ITabButton) {
+function TabButton({ onClick, isCurrent }: TabButton) {
   return (
     <CircleSvg
       width="30"
@@ -53,7 +53,7 @@ function TabButton({ onClick, isCurrent }: ITabButton) {
     </CircleSvg>
   );
 }
-const TabContainer = styled.div<ITabContainer>`
+const TabContainer = styled.div<TabContainer>`
   margin: 10px auto auto auto;
   padding: 0 10px;
   height: 30px;
@@ -61,7 +61,7 @@ const TabContainer = styled.div<ITabContainer>`
   width: ${({ width }) => width * 30}px;
   background-color: rgb(0 0 0 / 65%);
 `;
-export function Tab({ n, clickEvent, keyEvent, current }: ITab) {
+export function Tab({ n, clickEvent, keyEvent, current }: Tab) {
   const keyboardFunc = ({ key }: any) => {
     if (key === "ArrowLeft")
       keyEvent(({ current }) => ({

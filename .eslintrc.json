@@ -1,0 +1,6 @@
+{
+  "rules": {
+    "no-redeclare": false,
+    "@typescript-eslint/no-redeclare": "error"
+  }
+}

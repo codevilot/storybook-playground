@@ -1,7 +1,7 @@
 import React, { useEffect, useState, ReactNode } from "react";
 import styled from "@emotion/styled";
 import { Tab } from "./CarouselTab";
-interface IPages extends IContainer {
+interface Pages extends Container {
   /**
    * It determines Carousel Page
    */
@@ -12,7 +12,7 @@ interface IPages extends IContainer {
   n: number;
 }
 
-interface IContainer {
+interface Container {
   /**
    * Carousel object including prev page number and current page number
    */
@@ -23,7 +23,7 @@ interface IContainer {
   height?: number | string;
 }
 
-interface ICarousel {
+interface Carousel {
   /**
    * Carousel aria label
    */
@@ -45,9 +45,9 @@ interface ICarousel {
    */
   height?: number | string;
 }
-const Container = styled.section<IContainer>`
+const Container = styled.section<Container>`
   width: 100%;
-  height: ${({ height }) => height ?? "100px"}
+  height: ${({ height }) => height ?? "300px"};
   position: relative;
   overflow: hidden;
 
@@ -65,6 +65,7 @@ const Container = styled.section<IContainer>`
     transform: translate3d(0%, 0, 0);
   }
   ul > * {
+    height: ${({ height }) => height ?? "300px"};
     transition: 0.2s transform;
   }
 `;
@@ -80,7 +81,7 @@ const ControButton = styled.button`
   margin-left: 10px;
   border-radius: 5px;
 `;
-const Pages = styled.ul<IPages>`
+const Pages = styled.ul<Pages>`
   margin: 0;
   padding: 0;
   width: 100%;
@@ -107,7 +108,7 @@ const Controller = styled.div`
   text-align: center;
 `;
 
-export function Carousel({ name, children, delay, auto, height }: ICarousel) {
+export function Carousel({ name, children, delay, auto, height }: Carousel) {
   const [page, setPage] = useState({ prev: 0, current: 0 });
   const [play, setPlay] = useState(auto !== false ?? true);
   const [pause, setPause] = useState(false);

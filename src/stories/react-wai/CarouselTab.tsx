@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, KeyboardEvent, SetStateAction } from "react";
 import styled from "@emotion/styled";
-interface TabButton {
+interface PaginationProps {
   /**
    * Control tab button Event
    */
@@ -10,25 +10,25 @@ interface TabButton {
    */
   isCurrent: boolean;
 }
-interface Tab {
+interface ControlTabProps {
   /**
    * Current Page Index
    */
-  current: number;
+  currentPage: number;
   /**
    * The number of Carousel tab
    */
-  n: number;
+  entireCarouselPage: number;
   /**
    * Carousel click Event
    */
-  clickEvent: (to: number) => void;
+  onClick: (to: number) => void;
   /**
    * Carousel keyboard Event
    */
   keyEvent: Dispatch<SetStateAction<{ prev: number; current: number }>>;
 }
-interface TabContainer {
+interface NavigationProps {
   /**
    * Control tab container width
    */
@@ -39,7 +39,7 @@ const CircleSvg = styled.svg`
     fill: rgb(31, 31, 31);
   }
 `;
-function TabButton({ onClick, isCurrent }: TabButton) {
+function Pagination({ onClick, isCurrent }: PaginationProps) {
   return (
     <CircleSvg
       width="30"
@@ -53,7 +53,7 @@ function TabButton({ onClick, isCurrent }: TabButton) {
     </CircleSvg>
   );
 }
-const TabContainer = styled.div<TabContainer>`
+const Navigation = styled.div<NavigationProps>`
   margin: 10px auto auto auto;
   padding: 0 10px;
   height: 30px;
@@ -61,35 +61,36 @@ const TabContainer = styled.div<TabContainer>`
   width: ${({ width }) => width * 30}px;
   background-color: rgb(0 0 0 / 65%);
 `;
-export function Tab({ n, clickEvent, keyEvent, current }: Tab) {
-  const keyboardFunc = ({ key }: any) => {
+export function ControlTab({
+  entireCarouselPage,
+  onClick,
+  keyEvent,
+  currentPage,
+}: ControlTabProps) {
+  const onKeyDown = ({ key }: KeyboardEvent) => {
     if (key === "ArrowLeft")
       keyEvent(({ current }) => ({
         prev: current,
-        current: current > 0 ? (current - 1) % n : n - 1,
+        current:
+          current > 0
+            ? (current - 1) % entireCarouselPage
+            : entireCarouselPage - 1,
       }));
     if (key === "ArrowRight")
       keyEvent(({ current }) => ({
         prev: current,
-        current: (current + 1) % n,
+        current: (current + 1) % entireCarouselPage,
       }));
   };
-  const addEvent = () => window.addEventListener("keydown", keyboardFunc);
-  const removeEvent = () => window.removeEventListener("keydown", keyboardFunc);
   return (
-    <TabContainer
-      width={n}
-      tabIndex={0}
-      onFocus={addEvent}
-      onBlur={removeEvent}
-    >
-      {Array.from({ length: n }).map((_, i) => (
-        <TabButton
+    <Navigation width={entireCarouselPage} tabIndex={0} onKeyDown={onKeyDown}>
+      {Array.from({ length: entireCarouselPage }).map((_, i) => (
+        <Pagination
           key={i}
-          onClick={() => clickEvent(i)}
-          isCurrent={i === current}
+          onClick={() => onClick(i)}
+          isCurrent={i === currentPage}
         />
       ))}
-    </TabContainer>
+    </Navigation>
   );
 }
